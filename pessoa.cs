@@ -57,7 +57,7 @@ public string GetSenha(){
 
    string valor = s;
 
-   if(valor.Length == 4){//senha igual a 4 digitos
+   if(valor.Length >= 4){//senha igual a 4 digitos
 
       senha = s;
       return true;
@@ -116,7 +116,17 @@ public string GetSenha(){
 
       if(VerificaData(mes,2)){
 
-          dataNascimento = new DateTime(Convert.ToInt32(ano),Convert.ToInt32(mes),Convert.ToInt32(dia));
+        try{
+
+             dataNascimento = new DateTime(Convert.ToInt32(ano),Convert.ToInt32(mes),Convert.ToInt32(dia));
+        }
+
+        catch (ArgumentOutOfRangeException){//...................................................erro na data
+
+            Console.WriteLine ("\nData Incorreta!!");
+            return false;
+        }
+          
       }else{
          Console.WriteLine ("data invalida!!!");
          return false;
@@ -200,7 +210,7 @@ public static bool VerificaTelefone(string tel){
 
   string valor = tel;
 
-    if( valor.Length == 9 && valor.All(char.IsDigit)){//verifica se tem so numero
+    if( valor.Length == 8 && valor.All(char.IsDigit)){//verifica se tem so numero
 
       return true;
 
@@ -287,8 +297,9 @@ public static bool VerificarCpf(string cpFentrada) {
         }
 
      }else{
-        Console.WriteLine ("O primeiro digito verificador é "+cpf[9]+" esta incorreto!");
-        Console.WriteLine ("deveria ser "+digVerif1);
+       // Console.WriteLine ("O primeiro digito verificador é "+cpf[9]+" esta incorreto!");
+       // Console.WriteLine ("deveria ser "+digVerif1);
+       Console.WriteLine ("Cpf incorreto!!");
         return false;
      }
 

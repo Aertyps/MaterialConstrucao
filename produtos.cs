@@ -9,7 +9,7 @@ class Produtos{
   private double valor;
   private int quantidade;
   private string marca;
-   private int codigo;
+  private int codigo;
 
   Produtos(){
 
