@@ -3,15 +3,16 @@ using System.Linq;
 using System.IO;
 using System.Text;
 
-class Produtos{
-  private string nome;
+class Produtos : Loja{
+  
+  private string nomeLoja;
   private string descricao;
   private double valor;
   private int quantidade;
   private string marca;
   private int codigo;
 
-  Produtos(){
+  public Produtos(){
 
   }
 
@@ -47,18 +48,18 @@ class Produtos{
     return false;
   }
 
-  public string GetNome(){
-   return nome;
+  public string GetNomeLoja(){
+   return nomeLoja;
  }
 
- public bool SetNome(string n){
+ public bool SetNomeLoja(string n){
 
    if(Pessoa.VerificaPalavra(n)){
-     nome = n;
+     nomeLoja = n;
      return true;
 
     }else{
-       Console.WriteLine ("Nome invalido!!!");
+       Console.WriteLine ("NomeLoja invalido!!!");
        return false;
     }
  
