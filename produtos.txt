@@ -1,0 +1,7 @@
+﻿cimento saco-de-cimento R$2 nassau 20 223333 GM-Material-de-construcao 55602193/0001-42
+areia saco-de-areia R$10 natural 50 223334 GM-Material-de-construcao 08.300.832/0001-35
+pa pa-de-areia R$15 pereira 20 223335 Materiali-del-construtore 08.300.832/0001-35
+turquesa turquesa-de-aco R$7 gedore 60 223336 Materiali-del-construtore 08.300.832/0001-35
+barro saco-de-barro R$15 natural 20 223337 Materiali-del-construtore 08.300.832/0001-35
+piso piso-grande R$14 bianco 60 223338 ferrovia-material-de-construção 55602193/0001-42
+enxada enxada-grande R$15 aco 20 223339 ferrovia-material-de-construção 55602193/0001-42
