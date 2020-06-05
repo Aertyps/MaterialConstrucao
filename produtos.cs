@@ -5,7 +5,7 @@ using System.Text;
 
 class Produtos : Loja{
   
-  private string nomeLoja;
+  private string nomeProduto;
   private string descricao;
   private double valor;
   private int quantidade;
@@ -48,18 +48,18 @@ class Produtos : Loja{
     return false;
   }
 
-  public string GetNomeLoja(){
-   return nomeLoja;
+  public string GetNomeProduto(){
+   return nomeProduto;
  }
 
- public bool SetNomeLoja(string n){
+ public bool SetNomeProduto(string n){
 
    if(Pessoa.VerificaPalavra(n)){
-     nomeLoja = n;
+     nomeProduto = n;
      return true;
 
     }else{
-       Console.WriteLine ("NomeLoja invalido!!!");
+       Console.WriteLine ("Nome de Produto invalido!!!");
        return false;
     }
  
