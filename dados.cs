@@ -1,5 +1,5 @@
 using System;
-using System.Linq;
+
 using System.IO;
 using System.Text;
 
@@ -286,51 +286,72 @@ class Dados{
     return 0;
   }
 
-  public static Produtos GetLoja(string cpf1){
-
-   Produtos produto = new Produtos();
-   FileStream meuArq = new FileStream("loja.txt", FileMode.Open, FileAccess.Read);
-   StreamReader sr = new StreamReader(meuArq, Encoding.UTF8);
-   int i = 0;
-   int coluna1 = 0;
-   string palavras ="";
+public static Produtos Loja(string cpf1){ //retorno a classe pessoa preechida
   
+   string l  = cpf1;
+   string arq = "loja.txt";
+   Produtos produto = new Produtos();
+   int col = BuscarLoja(arq,l);
+
+  if(col == 0 ){
+
+    return null;
+
+  }else{
+
+    FileStream meuArq = new FileStream(arq, FileMode.Open, FileAccess.Read);
+    StreamReader sr = new StreamReader(meuArq, Encoding.UTF8);
+
+    int i = 0;
+    int coluna1 = 0;
+    int coluna = col;
+    string palavras ="";
+    
     while(!sr.EndOfStream){
 
       coluna1++;
       string str = sr.ReadLine();
 
+      if(coluna == coluna1){
+
         for(int i2 = 0;i2<str.Length; i2++)
         {
-        
-            if(str[i2] ==' '){
+
+          if(str[i2] ==' '){
               i++;
+              if(i == 1){
+                produto.SetNome(palavras);
+              //  Console.WriteLine (palavras);
 
-            if(i == 1){
-              produto.SetNome(palavras);
+              }else if(i == 2){
 
-            }else if(i == 2){
+                produto.SetEndereco(palavras);
+              //  Console.WriteLine (palavras);
 
-              produto.SetEndereco(palavras);
+              }else if(i == 3){
 
-            }else if(i == 3){
+                produto.SetCnpj(palavras);
 
-              produto.SetCnpjVerificado(palavras);
 
-            }else if(i == 4){
-              
-              produto.SetTelefone(palavras);
+              }else if(i == 4){
+                
+                produto.SetTelefone(palavras);
 
-            }
+              }
+            
             palavras ="";
 
           }else{
 
               if(str[i2] =='-'){
 
-                palavras +=' ';
-
-              }else{
+                if(i != 2){
+                  palavras +=' ';
+                }else{
+                  palavras +=str[i2];
+                }
+                
+                }else{
 
                 palavras +=str[i2];
               }
@@ -338,12 +359,19 @@ class Dados{
           }
         
         }
-        //ultimo dado
+        
+        
+      }
+    
     }
     sr.Close();
     meuArq.Close();
 
-    return produto;
+   
+    
+  }
+
+  return produto;
 
   }
 
