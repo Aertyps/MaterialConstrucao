@@ -47,9 +47,18 @@ class MainClass {
           }else if(decisao == 2){
 
             Console.Clear();//limpar tela
-            CadastrarProdutos(pessoa.GetCpf());//cadastrar um produto
+
+            if(Dados.BuscarLoja("loja.txt",pessoa.GetCpf()) != 0){
+
+              CadastrarProdutos(pessoa.GetCpf());//cadastrar um produto
+
+            }else{
+
+                Console.WriteLine ("Não tem loja cadastrada!!!");
+            }
 
           }else if((decisao != 1)&&(decisao != 2)){
+            
             trava = false;
           }
 
@@ -216,8 +225,10 @@ public static void CadastrarProdutos(string cpf1){
   Produtos produto = new Produtos();
   bool op = true;
   
-  produto = Dados.GetLoja(cpf1);
+  produto = Dados.Loja(cpf1);
+  Console.WriteLine ("Nome da loja: "+produto.GetNome());
   Console.WriteLine ("Cnpj : "+produto.GetCnpj());
+  Console.WriteLine ("Cpf : "+cpf1);
 
   while(op){
 
