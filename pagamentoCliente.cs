@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.IO;
 using System.Text;
 
@@ -10,7 +9,7 @@ class PagamentoCliente:Pedido
   private string notaFiscal;
   private double valorTotal;
   private double Desconto;
-
+  private DateTime dataPedido;
   public PagamentoCliente()
   {
 
@@ -77,3 +76,4 @@ public void SetDataPagamento(string ano,string dia,string mes){
             Console.WriteLine ("data invalida!!!");
           }
   }
+}
