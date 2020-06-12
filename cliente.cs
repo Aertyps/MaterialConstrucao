@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.IO;
 using System.Text;
 
@@ -52,7 +51,7 @@ class Cliente:Pessoa{
 
     if(valorTotal > 0){
 
-      valorTotalCompras += valorTotal;
+      valorTotalCompras = valorTotal;
     }else{
        Console.WriteLine ("Valor total invalido!!!");
     }

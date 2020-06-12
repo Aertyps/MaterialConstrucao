@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.IO;
 using System.Text;
 
@@ -9,6 +8,7 @@ class Pedido:Cliente{
   private int numeroPedido;
   private int qtd;
   private int codigo;
+  private string cnpj;
 
   public Pedido(){
 
@@ -20,6 +20,8 @@ class Pedido:Cliente{
     SetNumeroPedido(numero);
     SetQtd(qtd);
     SetCodigo(produto.GetCodigo());
+    SetCnpj(produto.GetCnpj());
+    SetValorTotalCompras(produto.GetValor());
   }
 
   public int GetCodigo(){
@@ -36,6 +38,10 @@ class Pedido:Cliente{
 
   public int GetQtd(){
     return qtd;
+  }
+
+  public string GetCnpj(){
+    return cnpj;
   }
 
   public void SetDataPedido(string ano,string dia,string mes){
@@ -58,6 +64,17 @@ class Pedido:Cliente{
     }else{
             Console.WriteLine ("data invalida!!!");
           }
+  }
+
+ public bool SetCnpj(string c){
+  string valor = c;
+
+  if(Loja.ValidaCnpj(valor)){//valida cnpj
+    cnpj = valor;
+    return true;
+  }
+
+  return false;
   }
 
   public void SetQtd(int qt){
