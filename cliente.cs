@@ -50,7 +50,7 @@ class Cliente:Pessoa{
 
     double valorTotal = vt;
 
-    if(valorTotal > 0){
+    if(valorTotal >= 0){
 
       valorTotalCompras += valorTotal;
     }else{
