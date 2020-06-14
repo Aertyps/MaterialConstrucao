@@ -27,6 +27,7 @@ class Cartao:PagamentoCliente
   public string SetTipoCartao(string tipocard)
   {
     tipoCartao = tipocard;
+    return tipoCartao;
   }
 
   public int GetParcelas()
@@ -58,5 +59,6 @@ class Cartao:PagamentoCliente
   public string SetNumCartao(string numc)
   {
     numCartao = numc;
+    return numCartao;
   }
 }
