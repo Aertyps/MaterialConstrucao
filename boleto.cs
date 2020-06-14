@@ -20,5 +20,6 @@ class Boleto:PagamentoCliente
   public string SetCodigo(string cod)
   {
     codigo = cod;
+    return codigo;
   }
 }
