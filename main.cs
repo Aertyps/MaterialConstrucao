@@ -19,7 +19,7 @@ class MainClass {
       
       if(pessoa.GetAcesso() == 0){//cliente
 
-       MenuCliente();
+       //MenuCliente();
        //Console.WriteLine ("\nDigite 1 para ver o  de Produtos");
        //Cliente cliente = new Cliente(pessoa,0,0.0);
        //Pedido(cliente);
