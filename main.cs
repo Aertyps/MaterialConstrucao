@@ -19,7 +19,7 @@ class MainClass {
 
       pessoa = Login();//verifico login retorno a classe preechida
       
-      if(pessoa.GetAcesso() == 0){//cliente2
+      if(pessoa.GetAcesso() == 0){//cliente
       /* Console.Clear();//limpar tela
        Console.WriteLine ("\nTabela de Produtos");
        Venda(pessoa);*/
