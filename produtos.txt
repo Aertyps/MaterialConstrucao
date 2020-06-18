@@ -1,4 +1,6 @@
-﻿cimento saco-de-cimento R$2 nassau 20 223333 GM-Material-de-construcao 55602193/0001-42
-saco-de-barro barro-natural R$15 natura 20 223334 Sao-torquato 77.941.560/0001-75
-lajotao de-barro R$1 trejota 500 223335 Sao-torquato 77.941.560/0001-75
+﻿cimento saco-de-cimento R$2 nassau 20 223333 GM-Material-de-construcao 55602193000142
+saco-de-barro barro-natural R$15 natura 20 223334 Sao-torquato 77941560000175
+lajotao de-barro R$1 trejota 500 223335 Sao-torquato 77941560000175
 pia-inox pia-grande R$1300 inoxx 12 223336 Aerty-material-de-construcao 79024644000170
+batrangue manutencao-predial R$150 sony 10 223337 assassinos-creed-material-construção 40694279000175
+figure enfeite R$1500 silver 20 223338 assassinos-creed-material-construção 40694279000175
