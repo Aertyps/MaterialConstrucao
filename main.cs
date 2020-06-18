@@ -20,9 +20,9 @@ class MainClass {
       pessoa = Login();//verifico login retorno a classe preechida
       
       if(pessoa.GetAcesso() == 0){//cliente2
-       Console.Clear();//limpar tela
+      /* Console.Clear();//limpar tela
        Console.WriteLine ("\nTabela de Produtos");
-       Venda(pessoa);
+       Venda(pessoa);*/
 
       }else if(pessoa.GetAcesso() == 1){//funcionario -- tente login fulano senha 12345
        
