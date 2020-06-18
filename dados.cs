@@ -546,21 +546,16 @@ public static Produtos Loja(string cpf1){ //retorno a classe pessoa preechida
 
    }
 
-  public static void GerarPedido(Pedido p, string arq){
+  public static void GerarPedido(){
 
-   Pedido pedido = new Pedido();
-   pedido = p;
-   string arquivo = arq;
+   string arquivo = "pedidos.txt";
    string str ="";
-
-	 str = ConteudoDeArquivo(arquivo);
-   str += ConteudoDeArquivo("pedidoTemporario.txt");
+   string str2 = ConteudoDeArquivo(arquivo);
+	 str = ConteudoDeArquivo("pedidoTemporario.txt");
 
    FileStream meuArq = new FileStream(arquivo, FileMode.Open, FileAccess.Write);
    StreamWriter sw = new StreamWriter(meuArq, Encoding.UTF8);
-	 
-   str += ""+pedido.GetNumeroPedido()+" "+pedido.GetCpf()+" "+pedido.GetQtd()+" "+pedido.GetDataPedido().Day+"/"+pedido.GetDataPedido().Month+"/"+pedido.GetDataPedido().Year+" "+pedido.GetCodigo()+" R$"+pedido.GetValorTotalCompras();
-
+   str += str2;
    sw.WriteLine(str);
      
    sw.Close();
@@ -694,6 +689,123 @@ public static string BuscarCodigoValor(string arquivo,string c){
         }
 
         FileStream fs = File.Create(path);
+  }
+
+  public static string ListarPedido(string cnpj){
+
+    FileStream meuArq = new FileStream("pedidos.txt", FileMode.Open, FileAccess.Read);
+    StreamReader sr = new StreamReader(meuArq, Encoding.UTF8);
+    int espaco = 0;
+    string  texto  = "";
+    string texto2  = "";
+
+    texto +="\n......................................................................................................................";
+
+      texto  ="| (1) Numero do pedido  \n| (2) Cpf  \n| (3) Quantidade \n| (4) Data \n| (5) Codigo do produto \n| (6) Valor \n| (7) Cnpj \n\n";
+    
+    
+    texto +="......................................................................................................................\n";
+    
+    while(!sr.EndOfStream){
+      string str = sr.ReadLine();
+      string palavras =" ";
+      espaco = 0;
+      texto2 = "";
+
+      for(int i2 = 0;i2<str.Length; i2++)
+      {
+
+        if(str[i2] ==' '){
+
+          espaco++;
+          texto2 +="("+espaco+")"+palavras+"  ";
+          palavras="";
+
+       }else{
+           if(str[i2] =='-'){
+
+              palavras +=' ';
+
+            }else{
+
+              palavras +=str[i2];
+            }
+       }  
+
+      }
+
+      espaco++;
+
+      if(palavras == cnpj){
+
+         texto2 +="("+espaco+")"+palavras+"  ";
+         texto += texto2;
+         texto+="\n......................................................................................................................\n";
+      }
+     
+    }      
+    sr.Close();
+    meuArq.Close();
+    
+    return texto ;
+
+  }
+
+   public static string NotaPedido(){
+
+    FileStream meuArq = new FileStream("pedidoTemporario.txt", FileMode.Open, FileAccess.Read);
+    StreamReader sr = new StreamReader(meuArq, Encoding.UTF8);
+    int espaco = 0;
+    string  texto  = "";
+    string texto2  = "";
+
+    texto +="\n......................................................................................................................";
+
+      texto  ="| (1) Numero do pedido  \n| (2) Cpf  \n| (3) Quantidade \n| (4) Data \n| (5) Codigo do produto \n| (6) Valor \n| (7) Cnpj \n\n";
+    
+    
+    texto +="......................................................................................................................\n";
+    
+    while(!sr.EndOfStream){
+      string str = sr.ReadLine();
+      string palavras =" ";
+      espaco = 0;
+      texto2 = "";
+
+      for(int i2 = 0;i2<str.Length; i2++)
+      {
+
+        if(str[i2] ==' '){
+
+          espaco++;
+          texto2 +="("+espaco+")"+palavras+"  ";
+          palavras="";
+
+       }else{
+           if(str[i2] =='-'){
+
+              palavras +=' ';
+
+            }else{
+
+              palavras +=str[i2];
+            }
+       }  
+
+      }
+
+     espaco++;
+     texto2 +="("+espaco+")"+palavras+"  ";
+     texto += texto2;
+     texto+="\n......................................................................................................................\n";
+      
+     
+    }      
+    sr.Close();
+    meuArq.Close();
+    
+    return texto ;
+
   }
 
 }
