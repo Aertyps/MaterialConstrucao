@@ -246,7 +246,9 @@ public static void Venda(Pessoa pessoa){
       }else if( codigo == 1){
         
         if(comprou){
-
+          Console.WriteLine ("Compras:\n\n");
+          Console.WriteLine (Dados.NotaPedido());
+           Console.WriteLine ("Valor total : R$"+pedFinal.GetValorTotalCompras());
           Finalizacao(pedFinal);
           trava = false;
           travaSup = false;
@@ -620,7 +622,7 @@ public static void CadastrarPessoa(){
 
   public static void Pedido(Cliente c)
   {
-    //int pedido = ped;
+    
     double valorTotal = 0;
     Cliente cliente = new Cliente();
     Pessoa pessoa = new Pessoa();
