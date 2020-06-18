@@ -20,9 +20,16 @@ class MainClass {
       pessoa = Login();//verifico login retorno a classe preechida
       
       if(pessoa.GetAcesso() == 0){//cliente
+
+
+       //MenuCliente();
+       //Console.WriteLine ("\nDigite 1 para ver o  de Produtos");
+       //Cliente cliente = new Cliente(pessoa,0,0.0);
+       //Pedido(cliente);
       /* Console.Clear();//limpar tela
        Console.WriteLine ("\nTabela de Produtos");
        Venda(pessoa);*/
+
 
       }else if(pessoa.GetAcesso() == 1){//funcionario -- tente login fulano senha 12345
        
@@ -105,6 +112,22 @@ class MainClass {
 
     return num;
     
+  }
+
+  public static int MenuCliente()
+  {
+    Pessoa pessoa = new Pessoa();
+    int num = 0;
+
+      Console.WriteLine("\nDigite 1 para comprar um produto");
+      Console.WriteLine("Digite qualquer número para sair\n");
+      num = Convert.ToInt32(Console.ReadLine());
+      if (num == 1)
+      {
+        Cliente cliente = new Cliente(pessoa,0,0.0);
+        Pedido(cliente);
+      }
+    return num;
   }
 
   public static int MenuFuncionario(){
@@ -344,7 +367,7 @@ public static Pessoa Login(){//faz o login
 
     if(senha == Console.ReadLine()){
       Console.Clear();//limpar tela
-      Console.WriteLine ("Bem vindo "+pessoa.GetNome());
+      Console.WriteLine ("Bem vindo,"+pessoa.GetNome());
       op = false;
     }
   }
@@ -571,4 +594,49 @@ public static void CadastrarPessoa(){
    Console.WriteLine ("\nCadastro Realizado!");
    
   }  
+
+
+  public static void Pedido(Cliente c)
+  {
+    //int pedido = ped;
+    double valorTotal = 0;
+    Cliente cliente = new Cliente();
+    Pessoa pessoa = new Pessoa();
+    cliente = c;
+    bool oper=true;
+    int num = 0;
+
+   Console.Clear();
+   Console.WriteLine("\nOlá, bem vindo a tela de pedidos! Gostaria de ver o catálogo de produtos?");
+   while (oper)
+   {
+     Console.WriteLine("\nDigite 1 para ver o catálogo");
+     Console.WriteLine("\nDigite 0 para sair");
+     num = Convert.ToInt32(Console.ReadLine());
+    
+     if(num == 1)
+     {
+       Console.WriteLine("precisa finalizar");
+       //oper = MostrarProdutos(cliente);
+       oper = false;
+     }
+     else if(num == 0)
+     {
+       oper = false;
+     }
+   }
+ }
+
+ //public static bool MostrarProdutos(Cliente c, int catalogo)
+ //{
+  //int cat = Arquivo.CatalogoProd();
+  //Console.Clear();
+  //Cliente cliente = new Cliente();
+  //cliente = c;
+  //Console.WriteLine("\nSegue abaixo nosso catálogo de produtos\n");
+  //Console.WriteLine(Arquivo.CatalogoProd("produtos.txt",0));
+ //}
 }
+
+
+
