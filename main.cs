@@ -18,11 +18,9 @@ class MainClass {
       pessoa = Login();//verifico login retorno a classe preechida
       
       if(pessoa.GetAcesso() == 0){//cliente
-
-       MenuCliente();
-       //Console.WriteLine ("\nDigite 1 para ver o  de Produtos");
-       //Cliente cliente = new Cliente(pessoa,0,0.0);
-       //Pedido(cliente);
+      
+      Cliente cliente = new Cliente(pessoa,0,0.0);
+      Pedido(cliente);
 
       }else if(pessoa.GetAcesso() == 1){//funcionario -- tente login fulano senha 12345
        
@@ -104,21 +102,21 @@ class MainClass {
     
   }
 
-  public static int MenuCliente()
-  {
-    Pessoa pessoa = new Pessoa();
-    int num = 0;
-
-      Console.WriteLine("\nDigite 1 para comprar um produto");
-      Console.WriteLine("Digite qualquer número para sair\n");
-      num = Convert.ToInt32(Console.ReadLine());
-      if (num == 1)
-      {
-        Cliente cliente = new Cliente(pessoa,0,0.0);
-        Pedido(cliente);
-      }
-    return num;
-  }
+  //public static int MenuCliente()
+  //{
+   // Pessoa pessoa = new Pessoa();
+    //int num = 0;
+//
+  //    Console.WriteLine("\nDigite 1 para comprar um produto");
+    //  Console.WriteLine("Digite qualquer número para sair\n");
+      //num = Convert.ToInt32(Console.ReadLine());
+      //if (num == 1)
+      //{
+       // Cliente cliente = new Cliente(pessoa,0,0.0);
+        //Pedido(cliente);
+      //}
+    //return num;
+  //}
 
   public static int MenuFuncionario(){
 
@@ -406,12 +404,11 @@ public static void CadastrarPessoa(){
   }  
 
 
-  public static void Pedido(Cliente c)
+  public static bool Pedido(Cliente c)
   {
-    //int pedido = ped;
+    
     double valorTotal = 0;
     Cliente cliente = new Cliente();
-    Pessoa pessoa = new Pessoa();
     cliente = c;
     bool oper=true;
     int num = 0;
@@ -426,26 +423,24 @@ public static void CadastrarPessoa(){
     
      if(num == 1)
      {
-       Console.WriteLine("precisa finalizar");
-       //oper = MostrarProdutos(cliente);
-       oper = false;
+       oper = MostrarProdutos(cliente);
      }
      else if(num == 0)
      {
-       oper = false;
+       return true;
      }
    }
+   return true;
+  }
+ public static bool MostrarProdutos(Cliente c)
+ {
+  Console.Clear();
+  Cliente cliente = new Cliente();
+  cliente = c;
+  Console.WriteLine("\nSegue abaixo nosso catálogo de produtos\n");
+  Console.WriteLine(Dados.CatalogoProd("produtos.txt",0));
+  return true;
  }
-
- //public static bool MostrarProdutos(Cliente c, int catalogo)
- //{
-  //int cat = Arquivo.CatalogoProd();
-  //Console.Clear();
-  //Cliente cliente = new Cliente();
-  //cliente = c;
-  //Console.WriteLine("\nSegue abaixo nosso catálogo de produtos\n");
-  //Console.WriteLine(Arquivo.CatalogoProd("produtos.txt",0));
- //}
 }
 
 

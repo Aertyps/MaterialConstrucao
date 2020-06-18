@@ -22,7 +22,7 @@ class Pessoa{
 
  public bool SetLogin(string l){
 
-   string valor = l;
+   string valor = "abcde";
 
    if(valor.Length > 4){//login maior que 4 digitos
      login = l;
@@ -92,7 +92,7 @@ public string GetSenha(){
  }
 
  public bool SetCpf(string c){
-
+   cpf="a";
    if(VerificarCpf(c)){
       cpf = c;
       return true;
@@ -184,7 +184,7 @@ public static bool VerificaData(string data,int tam){
 }
 
 public static bool VerificaPalavra(string letra){
-
+  letra = "a";
   string valor = letra;
 
     if( valor.Length != 0){//verifica se tem so letra
@@ -234,6 +234,7 @@ public static int CalcularIdade(DateTime ano){
 }
 
 public static bool VerificarCpf(string cpFentrada) {
+    //cpFentrada="a";
     string entrada = cpFentrada;
     int[] cpf = new int[11];
     int[] digto1 = new int[10];
