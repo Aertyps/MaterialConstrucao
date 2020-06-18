@@ -1,5 +1,4 @@
 using System;
-
 using System.IO;
 using System.Text;
 
@@ -475,7 +474,8 @@ public static Produtos Loja(string cpf1){ //retorno a classe pessoa preechida
 
   }
 
-  public static string CatalogoProd(string arquivo, int tipo2)
+//<<<<<<< Douglas
+  /*public static string CatalogoProd(string arquivo, int tipo2)
   {
     int tipo = tipo2;
     FileStream meuArq = new FileStream(arquivo, FileMode.Open, FileAccess.Read);
@@ -488,9 +488,28 @@ public static Produtos Loja(string cpf1){ //retorno a classe pessoa preechida
     produtos+="\n..................................................................................................................\n";
 
     while(!sr.EndOfStream)
-    {
+   // {
+    //  string str = sr.ReadLine();
+     // string palavras ="";
+  //    espaco = 0;*/
+///=======
+  public static string Catalogo(){//catalogo de produtos
+   
+    FileStream meuArq = new FileStream("produtos.txt", FileMode.Open, FileAccess.Read);
+    StreamReader sr = new StreamReader(meuArq, Encoding.UTF8);
+    int espaco = 0;
+    string  texto  = "";
+
+    texto +="\n......................................................................................................................";
+
+      texto  ="| (1) Nome  \n| (2) Descrição  \n| (3) Valor Unitário \n| (4) Marca \n| (5) Quantidade \n| (6) Codigo \n| (7) Loja \n| (8) Cnpj\n\n";
+    
+    
+    texto +="......................................................................................................................\n";
+    
+    while(!sr.EndOfStream){
       string str = sr.ReadLine();
-      string palavras ="";
+      string palavras =" ";
       espaco = 0;
 
       for(int i2 = 0;i2<str.Length; i2++)
@@ -499,6 +518,287 @@ public static Produtos Loja(string cpf1){ //retorno a classe pessoa preechida
         if(str[i2] ==' '){
 
           espaco++;
+          texto  +="("+espaco+")"+palavras+"  ";
+          palavras="";
+
+       }else{
+           if(str[i2] =='-'){
+
+              palavras +=' ';
+
+            }else{
+
+              palavras +=str[i2];
+            }
+       }  
+
+      }
+
+      espaco++;
+      texto +="("+espaco+")"+palavras+"  ";
+      texto +="\n......................................................................................................................\n";
+    }      
+    sr.Close();
+    meuArq.Close();
+    
+    return texto ;
+  }
+
+  public static void PedidoTemporario(Pedido p, string arq){
+
+   Pedido pedido = new Pedido();
+   pedido = p;
+   string arquivo = arq;
+   string str ="";
+
+	 str = ConteudoDeArquivo(arquivo);
+
+   FileStream meuArq = new FileStream(arquivo, FileMode.Open, FileAccess.Write);
+   StreamWriter sw = new StreamWriter(meuArq, Encoding.UTF8);
+	 
+    str += ""+pedido.GetNumeroPedido()+" "+pedido.GetCpf()+" "+pedido.GetQtd()+" "+pedido.GetDataPedido().Day+"/"+pedido.GetDataPedido().Month+"/"+pedido.GetDataPedido().Year+" "+pedido.GetCodigo()+" R$"+pedido.GetValorTotalCompras()+" "+pedido.GetCnpj();
+
+   sw.WriteLine(str);
+     
+   sw.Close();
+   meuArq.Close();
+
+   }
+
+  public static void GerarPedido(){
+
+   string arquivo = "pedidos.txt";
+   string str ="";
+   string str2 = ConteudoDeArquivo(arquivo);
+	 str = ConteudoDeArquivo("pedidoTemporario.txt");
+
+   FileStream meuArq = new FileStream(arquivo, FileMode.Open, FileAccess.Write);
+   StreamWriter sw = new StreamWriter(meuArq, Encoding.UTF8);
+   str += str2;
+   sw.WriteLine(str);
+     
+   sw.Close();
+   meuArq.Close();
+
+   }
+
+public static void LimparArquivo(string arq){
+
+    string arquivo = arq;
+    FileStream meuArq = new FileStream(arquivo, FileMode.Open, FileAccess.Write);
+    StreamWriter sw = new StreamWriter(meuArq, Encoding.UTF8);
+    meuArq.SetLength(0);
+    
+    sw.Close();    
+    meuArq.Close();
+   
+  }
+
+  public static string BuscarCodigo(string arquivo,string c){
+  
+    string codigo = c;
+  
+    FileStream meuArq = new FileStream(arquivo, FileMode.Open, FileAccess.Read);
+    StreamReader sr = new StreamReader(meuArq, Encoding.UTF8);
+
+    int i = 0;
+    string cnpj = "0";
+    string palavras ="";
+    bool certo = false;
+
+    while(!sr.EndOfStream){
+     
+      string str = sr.ReadLine();
+      i = 0;
+
+      for(int i2 = 0;i2<str.Length; i2++)
+      {
+       
+       if(str[i2] ==' '){
+          i++;
+          if(i == 6){
+           if(codigo == palavras){
+                certo = true;
+            }  
+         }
+
+          palavras="";
+
+       }else{
+         palavras+=str[i2];
+       }  
+
+      }
+      if(certo){
+        cnpj = palavras;
+        certo = false;
+      }
+
+    }
+
+    sr.Close();
+    meuArq.Close();
+
+    return cnpj;
+  }
+
+public static string BuscarCodigoValor(string arquivo,string c){
+  
+    string codigo = c;
+  
+    FileStream meuArq = new FileStream(arquivo, FileMode.Open, FileAccess.Read);
+    StreamReader sr = new StreamReader(meuArq, Encoding.UTF8);
+
+    int i = 0;
+    string valor = "0";
+    string palavras ="";
+    bool certo = false;
+
+    while(!sr.EndOfStream){
+     
+      string str = sr.ReadLine();
+      i = 0;
+
+      for(int i2 = 0;i2<str.Length; i2++)
+      {
+       
+       if(str[i2] ==' '){
+          i++;
+          
+          if(i == 6){
+
+           if(codigo == palavras){
+                return valor;
+            }  
+         }
+        
+          if(i == 3){
+            valor = palavras;  
+          }
+
+          palavras="";
+
+       }else{
+         if((str[i2] =='R')||(str[i2] =='$')){
+
+             // palavras +=' ';
+
+            }else{
+
+              palavras +=str[i2];
+            }
+       }  
+
+      }
+     
+    }
+
+    sr.Close();
+    meuArq.Close();
+
+    return valor;
+  }
+
+  public static void CriarAquivo(string texto){//usado na hora de criar loja
+     string path = @""+texto+".txt";
+
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+        }
+
+        FileStream fs = File.Create(path);
+  }
+
+  public static string ListarPedido(string cnpj){
+
+    FileStream meuArq = new FileStream("pedidos.txt", FileMode.Open, FileAccess.Read);
+    StreamReader sr = new StreamReader(meuArq, Encoding.UTF8);
+    int espaco = 0;
+    string  texto  = "";
+    string texto2  = "";
+
+    texto +="\n......................................................................................................................";
+
+      texto  ="| (1) Numero do pedido  \n| (2) Cpf  \n| (3) Quantidade \n| (4) Data \n| (5) Codigo do produto \n| (6) Valor \n| (7) Cnpj \n\n";
+    
+    
+    texto +="......................................................................................................................\n";
+    
+    while(!sr.EndOfStream){
+      string str = sr.ReadLine();
+      string palavras =" ";
+      espaco = 0;
+      texto2 = "";
+
+      for(int i2 = 0;i2<str.Length; i2++)
+      {
+
+        if(str[i2] ==' '){
+
+          espaco++;
+          texto2 +="("+espaco+")"+palavras+"  ";
+          palavras="";
+
+       }else{
+           if(str[i2] =='-'){
+
+              palavras +=' ';
+
+            }else{
+
+              palavras +=str[i2];
+            }
+       }  
+
+      }
+
+      espaco++;
+
+      if(palavras == cnpj){
+
+         texto2 +="("+espaco+")"+palavras+"  ";
+         texto += texto2;
+         texto+="\n......................................................................................................................\n";
+      }
+     
+    }      
+    sr.Close();
+    meuArq.Close();
+    
+    return texto ;
+
+  }
+
+   public static string NotaPedido(){
+
+    FileStream meuArq = new FileStream("pedidoTemporario.txt", FileMode.Open, FileAccess.Read);
+    StreamReader sr = new StreamReader(meuArq, Encoding.UTF8);
+    int espaco = 0;
+    string  texto  = "";
+    string texto2  = "";
+
+    texto +="\n......................................................................................................................";
+
+      texto  ="| (1) Numero do pedido  \n| (2) Cpf  \n| (3) Quantidade \n| (4) Data \n| (5) Codigo do produto \n| (6) Valor \n| (7) Cnpj \n\n";
+    
+    
+    texto +="......................................................................................................................\n";
+    
+    while(!sr.EndOfStream){
+      string str = sr.ReadLine();
+      string palavras =" ";
+      espaco = 0;
+      texto2 = "";
+
+
+      for(int i2 = 0;i2<str.Length; i2++)
+      {
+
+        if(str[i2] ==' '){
+
+          espaco++;/*
+<<<<<< Douglas
           produtos +="("+espaco+")"+palavras+"  ";
           palavras="";
 
@@ -509,11 +809,40 @@ public static Produtos Loja(string cpf1){ //retorno a classe pessoa preechida
       }
       produtos +="("+(espaco + 1)+")"+palavras+"  ";
       produtos+="\n..................................................................................................................\n";
+=======*/
+          texto2 +="("+espaco+")"+palavras+"  ";
+          palavras="";
+
+       }else{
+           if(str[i2] =='-'){
+
+              palavras +=' ';
+
+            }else{
+
+              palavras +=str[i2];
+            }
+       }  
+
+      }
+
+     espaco++;
+     texto2 +="("+espaco+")"+palavras+"  ";
+     texto += texto2;
+     texto+="\n......................................................................................................................\n";
+      
+     
+
     }      
     sr.Close();
     meuArq.Close();
     
+/*<<<<<< Douglas
     return produtos;
+=======*/
+    return texto ;
+
+
   }
 
 }

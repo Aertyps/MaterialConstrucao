@@ -10,10 +10,11 @@ class PagamentoCliente:Pedido
   private double valorTotal;
   private double Desconto;
   private DateTime dataPedido;
-  public PagamentoCliente()
-  {
 
-  }
+public PagamentoCliente()
+{
+
+}
 
 public PagamentoCliente(string ano, string dia, string mes)
 {
@@ -23,6 +24,11 @@ public PagamentoCliente(string ano, string dia, string mes)
 public DateTime GetDataPagamento()
 {
   return dataPagamento;
+}
+
+public DateTime GetDataPedido()
+{
+  return dataPedido;
 }
 
 public string GetNotaFiscal()
@@ -56,6 +62,27 @@ public void SetDesconto(double desc)
 }
 
 public void SetDataPagamento(string ano,string dia,string mes){
+
+      if(VerificaData(ano,4)){
+
+        if(VerificaData(dia,2)){
+
+            if(VerificaData(mes,2)){
+
+                dataPagamento = new DateTime(Convert.ToInt32(ano),Convert.ToInt32(mes),Convert.ToInt32(dia));
+            }else{
+                    Console.WriteLine ("data invalida!!!");
+                  }
+      
+        }else{
+                Console.WriteLine ("data invalida!!!");
+              }
+      
+    }else{
+            Console.WriteLine ("data invalida!!!");
+          }
+  }
+  public void SetDataPedido(string ano,string dia,string mes){
 
       if(VerificaData(ano,4)){
 
