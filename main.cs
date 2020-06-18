@@ -21,15 +21,9 @@ class MainClass {
       
       if(pessoa.GetAcesso() == 0){//cliente
 
-
-       //MenuCliente();
-       //Console.WriteLine ("\nDigite 1 para ver o  de Produtos");
-       //Cliente cliente = new Cliente(pessoa,0,0.0);
-       //Pedido(cliente);
-      /* Console.Clear();//limpar tela
+       Console.Clear();//limpar tela
        Console.WriteLine ("\nTabela de Produtos");
-       Venda(pessoa);*/
-
+       Venda(pessoa);
 
       }else if(pessoa.GetAcesso() == 1){//funcionario -- tente login fulano senha 12345
        
@@ -67,6 +61,19 @@ class MainClass {
               Console.WriteLine ("Não tem loja cadastrada!!!");
             }
 
+          }else if(decisao == 4){
+
+            Console.Clear();//limpar tela
+
+            if(Dados.BuscarLoja("loja.txt",pessoa.GetCpf()) != 0){
+
+              ListarPedidos(pessoa.GetCpf());
+
+            }else{
+
+              Console.WriteLine ("Não tem loja cadastrada!!!");
+            }
+
           }else if(decisao == 3){
               Console.Clear();//limpar tela
               Venda(pessoa);
@@ -84,7 +91,7 @@ class MainClass {
       }
     } 
 
-    Console.WriteLine ("Tudo ok !!! Continua....");
+    Console.WriteLine ("Volte sempre....");
 
   }
 
@@ -157,7 +164,7 @@ class MainClass {
   }
 
 public static void Venda(Pessoa pessoa){
-
+ 
   bool trava = true;
   bool travaSup = true;
   int cod = 0;
@@ -165,6 +172,7 @@ public static void Venda(Pessoa pessoa){
   Produtos produto = new Produtos();
   DateTime data = DateTime.Now;
   Pedido pedido;
+  Pedido pedFinal = new Pedido();
 
   if(data.Day <10)
   {
@@ -193,10 +201,11 @@ public static void Venda(Pessoa pessoa){
   Console.WriteLine (Dados.Catalogo());
   int codigo = 0;
   int quantidade = 0;
+  bool comprou = false;
 
   while(travaSup){
       trava = true;
-
+      
     while(trava){
 
       Console.WriteLine ("Digite o codigo do produto [indice] (6) desejado");
@@ -217,6 +226,7 @@ public static void Venda(Pessoa pessoa){
         Console.WriteLine ("\nFormato de numero incorreto!!");
         trava = true;
       }
+      
       string cnpj = Dados.BuscarCodigo("produtos.txt",testarCodigo);
       if( cnpj == "0"){
         trava = true;
@@ -225,17 +235,26 @@ public static void Venda(Pessoa pessoa){
         produto.SetCodigo(testarCodigo);
         produto.SetCnpj(cnpj);
         produto.SetValor(Dados.BuscarCodigoValor("produtos.txt",testarCodigo));
+        comprou = true;///comprou liberar finalizar
       }
       
       if(codigo == 0){
         trava = false;
         travaSup = false;
+        Dados.LimparArquivo("pedidoTemporario.txt");
 
       }else if( codigo == 1){
-      
-        Finalizacao();
-        trava = false;
-        travaSup = false;
+        
+        if(comprou){
+
+          Finalizacao(pedFinal);
+          trava = false;
+          travaSup = false;
+
+        }else{
+           Console.WriteLine ("\nFaça uma compra para finalizar!!");
+        }
+        
 
       }
 
@@ -272,7 +291,9 @@ public static void Venda(Pessoa pessoa){
         pedido = new Pedido(ano,dia,mes,cod,quantidade,produto);
         pedido.SetCpf(pessoa.GetCpf());
         pedido.SetNome(pessoa.GetNome());
+        pedido.SetDataNascimento(pessoa.GetDataNascimento());
         pedido.SetValorTotalCompras(pedido.GetValorTotalCompras()*quantidade);
+        pedFinal = pedido;
         Dados.PedidoTemporario(pedido,"pedidoTemporario.txt");
       }
       
@@ -281,10 +302,8 @@ public static void Venda(Pessoa pessoa){
 
 }
 
-public static void Finalizacao(){
+public static void Finalizacao(Pedido pedido){
 
-  // Pedido pedido = new Pedido();
-  //  pedido = p;
     bool op = true;
 
       while(op){
@@ -296,18 +315,21 @@ public static void Finalizacao(){
         int num = Convert.ToInt32(Console.ReadLine());
 
         if(num == 1){
-          //NotaFiscal(pedido,"dinheiro");
+          NotaFiscal(pedido,"dinheiro");
           Console.WriteLine ("\nVenda Finalizada");
           Console.WriteLine ("Obrigado pela preferencia!");
-
+          Dados.GerarPedido();
+          Dados.LimparArquivo("pedidoTemporario.txt");
           op = false;
 
         }else if(num == 2){
 
           //RegistrarCartao();
-         // NotaFiscal(pedido,"Cartao");
+          NotaFiscal(pedido,"Cartao");
           Console.WriteLine ("\nVenda Finalizada");
           Console.WriteLine ("Obrigado pela preferencia!");
+          Dados.GerarPedido();
+          Dados.LimparArquivo("pedidoTemporario.txt");
           op = false;
 
         }else{
@@ -324,11 +346,11 @@ public static void NotaFiscal(Pedido p, string tipo){
   string texto ="";
   texto+="\n..................................................................................................................\n";
   Console.WriteLine (texto);
-  Console.WriteLine ("\nNOTA FISCAL NUMERO "+(5000+pedido.GetNumeroPedido()));
+  Console.WriteLine ("\nNOTA FISCAL NUMERO "+(pedido.GetNumeroPedido()));
   Console.WriteLine (texto);
   Console.WriteLine ("Comprador "+pedido.GetNome()+" Cpf "+pedido.GetCpf()+" Idade "+pedido.GetIdade()+"\n");
-  Console.WriteLine ("Descrição da compra : ");
-  //Console.WriteLine ("Valor Total da Compra R$"+ListaCompraTotal(pedido));
+  Console.WriteLine ("Descrição da compra : \n\n"+Dados.NotaPedido());
+  Console.WriteLine ("Valor Total da Compra R$"+pedido.GetValorTotalCompras());
   Console.WriteLine ("Forma de Pagamento "+tipo);
   Console.WriteLine (texto);
 
@@ -627,15 +649,16 @@ public static void CadastrarPessoa(){
    }
  }
 
- //public static bool MostrarProdutos(Cliente c, int catalogo)
- //{
-  //int cat = Arquivo.CatalogoProd();
-  //Console.Clear();
-  //Cliente cliente = new Cliente();
-  //cliente = c;
-  //Console.WriteLine("\nSegue abaixo nosso catálogo de produtos\n");
-  //Console.WriteLine(Arquivo.CatalogoProd("produtos.txt",0));
- //}
+ public static void ListarPedidos(string cpf1){
+   //Produtos produto = new Produtos();
+   //bool op = true;
+  
+  // produto = Dados.Loja(cpf1);
+   Console.WriteLine("Lista de pedidos\n");
+   //Console.WriteLine(Dados.ListarPedido(produto.GetCnpj()));
+   Console.WriteLine("Lista de pedidos acima!");
+ }
+ 
 }
 
 
