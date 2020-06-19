@@ -20,17 +20,14 @@ class MainClass {
       pessoa = Login();//verifico login retorno a classe preechida
       
       if(pessoa.GetAcesso() == 0){//cliente
-//<<<<<<< Douglas
       
+      Console.Clear();//limpar tela
       Cliente cliente = new Cliente(pessoa,0,0.0);
-      Pedido(cliente);
-//=======
 
-      // Console.Clear();//limpar tela
-      // Console.WriteLine ("\nTabela de Produtos");
-      // Venda(pessoa);
-//>>>>>>> Aerty
-
+      if(Pedido(cliente)){
+        Venda(pessoa);
+      }
+      
       }else if(pessoa.GetAcesso() == 1){//funcionario -- tente login fulano senha 12345
        
         bool trava = true;
@@ -645,15 +642,27 @@ public static void CadastrarPessoa(){
     
      if(num == 1)
      {
-       oper = MostrarProdutos(cliente);
+       MostrarProdutos(cliente);
+
+       Console.WriteLine ("\nPara comprar digite - ( s ) para sim ou ( n ) para não");
+       string tipo = Console.ReadLine();
+
+      if(tipo == "n"){
+        return false;
+         
+      }else if(tipo == "s"){
+         return true;
+      }
+
      }
      else if(num == 0)
      {
-       return true;
+       return false;
      }
    }
    return true;
   }
+
  public static bool MostrarProdutos(Cliente c)
  {
   Console.Clear();

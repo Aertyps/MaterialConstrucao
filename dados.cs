@@ -544,6 +544,57 @@ public static Produtos Loja(string cpf1){ //retorno a classe pessoa preechida
     return texto ;
   }
 
+  public static string CatalogoProd(string arquivo, int tipo2)
+  {
+    int tipo = tipo2;
+    FileStream meuArq = new FileStream(arquivo, FileMode.Open, FileAccess.Read);
+    StreamReader sr = new StreamReader(meuArq, Encoding.UTF8);
+    int espaco = 0;
+    string produtos = "";
+
+    produtos = "(1) Nome \n(2) Descrição \n(3) Valor \n(4) Quantidade \n(5) Marca \n(6) Código \n\n";
+
+    produtos+="\n..................................................................................................................\n";
+
+    while(!sr.EndOfStream)
+    {
+      string str = sr.ReadLine();
+      string palavras ="";
+      espaco = 0;
+
+
+      for(int i2 = 0;i2<str.Length; i2++)
+      {
+
+        if(str[i2] ==' '){
+
+          espaco++;
+          produtos  +="("+espaco+")"+palavras+"  ";
+          palavras="";
+
+       }else{
+           if(str[i2] =='-'){
+
+              palavras +=' ';
+
+            }else{
+
+              palavras +=str[i2];
+            }
+       }  
+
+      }
+
+      espaco++;
+      produtos +="("+espaco+")"+palavras+"  ";
+      produtos +="\n......................................................................................................................\n";
+    }      
+    sr.Close();
+    meuArq.Close();
+    
+    return produtos ;
+  }
+
   public static void PedidoTemporario(Pedido p, string arq){
 
    Pedido pedido = new Pedido();
