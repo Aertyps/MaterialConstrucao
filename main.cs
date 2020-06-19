@@ -20,11 +20,14 @@ class MainClass {
       pessoa = Login();//verifico login retorno a classe preechida
       
       if(pessoa.GetAcesso() == 0){//cliente
+      
+      Console.Clear();//limpar tela
+      Cliente cliente = new Cliente(pessoa,0,0.0);
 
-       Console.Clear();//limpar tela
-       Console.WriteLine ("\nTabela de Produtos");
-       Venda(pessoa);
-
+      if(Pedido(cliente)){
+        Venda(pessoa);
+      }
+      
       }else if(pessoa.GetAcesso() == 1){//funcionario -- tente login fulano senha 12345
        
         bool trava = true;
@@ -121,21 +124,21 @@ class MainClass {
     
   }
 
-  public static int MenuCliente()
-  {
-    Pessoa pessoa = new Pessoa();
-    int num = 0;
-
-      Console.WriteLine("\nDigite 1 para comprar um produto");
-      Console.WriteLine("Digite qualquer número para sair\n");
-      num = Convert.ToInt32(Console.ReadLine());
-      if (num == 1)
-      {
-        Cliente cliente = new Cliente(pessoa,0,0.0);
-        Pedido(cliente);
-      }
-    return num;
-  }
+  //public static int MenuCliente()
+  //{
+   // Pessoa pessoa = new Pessoa();
+    //int num = 0;
+//
+  //    Console.WriteLine("\nDigite 1 para comprar um produto");
+    //  Console.WriteLine("Digite qualquer número para sair\n");
+      //num = Convert.ToInt32(Console.ReadLine());
+      //if (num == 1)
+      //{
+       // Cliente cliente = new Cliente(pessoa,0,0.0);
+        //Pedido(cliente);
+      //}
+    //return num;
+  //}
 
   public static int MenuFuncionario(){
 
@@ -620,12 +623,11 @@ public static void CadastrarPessoa(){
   }  
 
 
-  public static void Pedido(Cliente c)
+  public static bool Pedido(Cliente c)
   {
     
     double valorTotal = 0;
     Cliente cliente = new Cliente();
-    Pessoa pessoa = new Pessoa();
     cliente = c;
     bool oper=true;
     int num = 0;
@@ -640,15 +642,35 @@ public static void CadastrarPessoa(){
     
      if(num == 1)
      {
-       Console.WriteLine("precisa finalizar");
-       //oper = MostrarProdutos(cliente);
-       oper = false;
+       MostrarProdutos(cliente);
+
+       Console.WriteLine ("\nPara comprar digite - ( s ) para sim ou ( n ) para não");
+       string tipo = Console.ReadLine();
+
+      if(tipo == "n"){
+        return false;
+         
+      }else if(tipo == "s"){
+         return true;
+      }
+
      }
      else if(num == 0)
      {
-       oper = false;
+       return false;
      }
    }
+   return true;
+  }
+
+ public static bool MostrarProdutos(Cliente c)
+ {
+  Console.Clear();
+  Cliente cliente = new Cliente();
+  cliente = c;
+  Console.WriteLine("\nSegue abaixo nosso catálogo de produtos\n");
+  Console.WriteLine(Dados.CatalogoProd("produtos.txt",0));
+  return true;
  }
 
  public static void ListarPedidos(string cpf1){
@@ -661,6 +683,7 @@ public static void CadastrarPessoa(){
    Console.WriteLine("Lista de pedidos acima!");
  }
  
+
 }
 
 
