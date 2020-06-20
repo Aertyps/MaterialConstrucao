@@ -202,6 +202,8 @@ public static void Venda(Pessoa pessoa){
   
   Console.Clear();//limpar tela
   Console.WriteLine (Dados.Catalogo());
+  int parcelas = 0;
+  int parcelasmax = 0;
   int codigo = 0;
   int quantidade = 0;
   bool comprou = false;
@@ -248,11 +250,12 @@ public static void Venda(Pessoa pessoa){
 
       }else if( codigo == 1){
         
-        if(comprou){
+        if(comprou)
+        {
           Console.WriteLine ("Compras:\n\n");
           Console.WriteLine (Dados.NotaPedido());
            Console.WriteLine ("Valor total : R$"+pedFinal.GetValorTotalCompras());
-          Finalizacao(pedFinal);
+          Finalizacao(pedFinal, parcelas, parcelasmax);
           trava = false;
           travaSup = false;
 
@@ -307,8 +310,8 @@ public static void Venda(Pessoa pessoa){
 
 }
 
-public static void Finalizacao(Pedido pedido){
-
+public static void Finalizacao(Pedido pedido, int parcelas, int parcelasmax){
+    
     bool op = true;
 
       while(op){
@@ -327,21 +330,50 @@ public static void Finalizacao(Pedido pedido){
           Dados.LimparArquivo("pedidoTemporario.txt");
           op = false;
 
-        }else if(num == 2){
-
+        }
+        else if(num == 2)
+        {
+          Cliente cliente = new Cliente();         
+          PerguntarCartao(cliente, parcelasmax);
           //RegistrarCartao();
-          NotaFiscal(pedido,"Cartao");
+          //NotaFiscal(pedido,"Cartao");
+          while(op)
+          {
+            
+            Console.WriteLine ("Digite a quantidade de parcelas");
+
+            try
+            {
+      
+              parcelas = Convert.ToInt32(Console.ReadLine());
+              op = false;
+
+              if(parcelas < parcelasmax )
+              {
+                op = true;
+              }
+            }
+            catch (FormatException)
+            {
+              Console.WriteLine ("\nQuantidades de parcelas rejeitadas pelo cartão!!");
+              op = true;
+            }
           Console.WriteLine ("\nVenda Finalizada");
+          NotaFiscal(pedido,"Cartao");
           Console.WriteLine ("Obrigado pela preferencia!");
           Dados.GerarPedido();
           Dados.LimparArquivo("pedidoTemporario.txt");
           op = false;
 
-        }else{
-          Console.WriteLine ("Opçao invalida!!");
+          }
+          //else
+          //{
+          //Console.WriteLine ("Opçao invalida!!");
+          //}
         }
-
       }
+
+  
 }
 
 public static void NotaFiscal(Pedido p, string tipo){
@@ -671,6 +703,27 @@ public static void CadastrarPessoa(){
   Console.WriteLine("\nSegue abaixo nosso catálogo de produtos\n");
   Console.WriteLine(Dados.CatalogoProd("produtos.txt",0));
   return true;
+ }
+
+ public static void PerguntarCartao(Cliente c, int parcelasmax)
+ {
+   Cliente cliente = new Cliente();
+   cliente = c;
+   Console.WriteLine ("\nDigite o seu cartão: visa, mastercard ou elo.");//se sim libero o acesso 2 tipo funcionario
+      string tipo = Console.ReadLine();
+
+      if(tipo == "visa")
+      {
+        parcelasmax=6;        
+      }
+      else if(tipo == "mastercard")
+      {
+        parcelasmax=12;
+      }
+      else if(tipo == "elo")
+      {
+        parcelasmax=24;
+      }  
  }
 
  public static void ListarPedidos(string cpf1){
